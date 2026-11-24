@@ -1,0 +1,83 @@
+---
+/*
+ * Curtain footer: the wrapper sits in the page flow with a clip-path, while the <footer>
+ * inside is position: fixed to the bottom of the viewport. Scrolling to the end lifts the
+ * page away and uncovers the footer. Its contents reveal once, together ([data-reveal-scope]).
+ */
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import Tape from './Tape.astro';
+import { company, credits, nav, services } from '../data/site';
+
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const href = (h: string) => (isHome ? h : `/${h}`);
+const year = new Date().getFullYear();
+const socialIcon = (label: string) => label.toLowerCase() as 'facebook' | 'instagram' | 'linkedin';
+const tape = [...services.map((s) => s.title), 'Safety first', 'Built in Luzon since 2004'];
+---
+
+<div class="cine-wrap" data-reveal-scope>
+	<footer class="cine">
+		<div class="cine__grid" aria-hidden="true"></div>
+		<div class="cine__giant" aria-hidden="true" data-reveal="giant">HALIGI</div>
+
+		<div class="cine__tape" data-reveal="slide">
+			<Tape items={tape} tilt />
+		</div>
+
+		<div class="cine__center">
+			<h2 class="cine__title" data-reveal>
+				Have a site?<br /><span class="dim">Let’s price it.</span>
+			</h2>
+			<div class="cine__links" data-reveal style="--i:1">
+				<div class="cine__row">
+					<a class="btn btn--accent btn--lg" href={href('#contact')} data-magnetic>
+						<span class="btn__label" data-text="Request a quote">Request a quote</span>
+						<span class="btn__icon"><Icon name="arrow-right" /></span>
+					</a>
+					<a class="btn btn--glass btn--lg" href={`mailto:${company.email}`} data-magnetic>
+						<span class="btn__label" data-text="Email the estimators">Email the estimators</span>
+						<span class="btn__icon"><Icon name="arrow-right" /></span>
+					</a>
+				</div>
+				<nav class="cine__nav" aria-label="Footer">
+					{
+						nav.map((item) => (
+							<a class="u-link" href={href(item.href)}>
+								{item.label}
+							</a>
+						))
+					}
+				</nav>
+			</div>
+		</div>
+
+		<div class="cine__bar">
+			<div class="cine__brand" data-reveal style="--i:2">
+				<Logo />
+				<p>
+					© {year} {company.legal} · {company.office}
+				</p>
+			</div>
+			<p class="cine__credits" data-reveal style="--i:2">{credits}</p>
+			<div class="cine__end" data-reveal style="--i:3">
+				{
+					company.socials.map((s) => (
+						<a
+							class="icon-btn icon-btn--dark"
+							href={s.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={`${company.name} on ${s.label}`}
+						>
+							<Icon name={socialIcon(s.label)} />
+						</a>
+					))
+				}
+				<a class="icon-btn icon-btn--dark cine__top" href={isHome ? '#top' : '/'} aria-label="Back to top">
+					<Icon name="arrow-up" />
+				</a>
+			</div>
+		</div>
+	</footer>
+</div>

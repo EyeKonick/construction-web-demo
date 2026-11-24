@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { commitments, images, safety } from '../data/site';
+---
+
+<section class="safety" id="safety" aria-labelledby="safety-title">
+	<div class="safety__bg" aria-hidden="true">
+		<Image src={images.workersSunset} alt="" widths={[900, 1600, 2400]} sizes="100vw" data-parallax="0.16" />
+	</div>
+	<div class="wrap safety__inner">
+		<div class="ruler ruler--light" aria-hidden="true" data-reveal="rule"></div>
+		<div class="sec-head sec-head--split">
+			<div>
+				<p class="label mono" data-reveal><span>05</span> Safety and quality</p>
+				<h2 class="h2 lines" id="safety-title" data-reveal="lines">
+					<span class="ln"><span style="--l:0">Everyone goes home</span></span>
+					<span class="ln dim"><span style="--l:1">at the end of the shift.</span></span>
+				</h2>
+			</div>
+			<p class="safety__lede" data-reveal style="--i:2">
+				Safety is planned with the schedule, not after it. Every site has a full-time safety officer who can stop
+				any task, and every incident is reported to you in that week’s report.
+			</p>
+		</div>
+
+		<ul class="safety__figures">
+			{
+				safety.map((s, i) => (
+					<li data-reveal style={`--i:${i}`}>
+						<span class="safety__value">
+							<span data-count={s.value} data-decimals={s.decimals}>
+								{s.value.toLocaleString('en-US', { minimumFractionDigits: s.decimals })}
+							</span>
+							<small>{s.suffix}</small>
+						</span>
+						<span class="safety__label">{s.label}</span>
+					</li>
+				))
+			}
+		</ul>
+
+		<ul class="values">
+			{
+				commitments.map((c, i) => (
+					<li class="value" data-reveal style={`--i:${i}`}>
+						<span class="value__icon">
+							<Icon name={c.icon} />
+						</span>
+						<h3>{c.title}</h3>
+						<p>{c.text}</p>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>

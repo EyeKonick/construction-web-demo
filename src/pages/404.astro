@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Layout title="Page not found | Haligi Builders">
+	<section class="wrap not-found">
+		<p class="label mono"><span>404</span> Page not found</p>
+		<h1 class="h2">
+			This page is still<br /><span class="dim">under construction.</span>
+		</h1>
+		<p class="muted" style="max-width:44ch">
+			The address may be mistyped, or the page may have moved. The home page has our services, projects and the quote
+			form.
+		</p>
+		<a class="btn btn--accent" href="/">
+			<span class="btn__label" data-text="Go to the home page">Go to the home page</span>
+			<span class="btn__icon"><Icon name="arrow-right" /></span>
+		</a>
+	</section>
+</Layout>

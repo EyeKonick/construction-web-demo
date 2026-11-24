@@ -1,0 +1,13 @@
+---
+/* Brand mark: two posts and a beam, the "haligi" (pillar) the company is named after. */
+interface Props {
+	class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg class:list={['logo-mark', className]} viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+	<rect class="logo-mark__beam" x="2" y="4" width="24" height="5"></rect>
+	<rect class="logo-mark__post" x="5" y="9" width="5" height="15"></rect>
+	<rect class="logo-mark__post logo-mark__post--b" x="18" y="9" width="5" height="15"></rect>
+</svg>

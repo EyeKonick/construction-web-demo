@@ -1,0 +1,72 @@
+---
+import Icon from './Icon.astro';
+import { testimonials } from '../data/site';
+
+const initials = (name: string) =>
+	name
+		.replace(/^Engr\.\s*/, '')
+		.split(/\s+/)
+		.map((w) => w[0])
+		.slice(0, 2)
+		.join('');
+---
+
+<section class="quotes section" id="clients" aria-labelledby="quotes-title" data-quotes>
+	<div class="wrap">
+		<div class="ruler" aria-hidden="true" data-reveal="rule"></div>
+		<div class="quotes__grid">
+			<div class="quotes__aside">
+				<p class="label mono" data-reveal><span>06</span> Clients</p>
+				<h2 class="h2 lines" id="quotes-title" data-reveal="lines">
+					<span class="ln"><span style="--l:0">What clients say</span></span>
+					<span class="ln dim"><span style="--l:1">after handover.</span></span>
+				</h2>
+				<div class="quotes__controls" data-reveal style="--i:2">
+					<button class="icon-btn" type="button" aria-label="Previous quote" data-quote-prev>
+						<Icon name="arrow-left" />
+					</button>
+					<button class="icon-btn" type="button" aria-label="Next quote" data-quote-next>
+						<Icon name="arrow-right" />
+					</button>
+					<span class="quotes__count mono"><span data-quote-current>01</span> / {String(testimonials.length).padStart(2, '0')}</span>
+				</div>
+			</div>
+
+			<div class="quotes__stage" data-reveal style="--i:1">
+				<span class="quotes__mark" aria-hidden="true">“</span>
+				{
+					testimonials.map((t, i) => (
+						<figure class:list={['quote', { 'is-in': i === 0 }]} data-quote aria-hidden={i === 0 ? 'false' : 'true'}>
+							<blockquote class="quote__text">{t.quote}</blockquote>
+							<figcaption class="quote__who">
+								<span class="avatar" aria-hidden="true">{initials(t.name)}</span>
+								<span>
+									<strong>{t.name}</strong>
+									<span class="mono">
+										{t.role} · {t.project}
+									</span>
+								</span>
+							</figcaption>
+						</figure>
+					))
+				}
+				<div class="quotes__tabs" role="group" aria-label="Choose a quote">
+					{
+						testimonials.map((t, i) => (
+							<button
+								class="quotes__tab"
+								type="button"
+								aria-pressed={i === 0 ? 'true' : 'false'}
+								aria-label={`Quote ${i + 1}, ${t.project}`}
+								data-quote-dot
+							>
+								<span class="mono">{String(i + 1).padStart(2, '0')}</span>
+								{t.project}
+							</button>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

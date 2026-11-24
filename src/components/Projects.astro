@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { projects } from '../data/site';
+
+const sectors = ['All', ...new Set(projects.map((p) => p.sector))];
+// Card shapes across the asymmetric grid, in project order.
+const shapes = ['wide', 'tall', 'std', 'std', 'wide', 'std', 'std'];
+---
+
+<section class="projects section" id="projects" aria-labelledby="projects-title" data-projects>
+	<div class="wrap">
+		<div class="ruler" aria-hidden="true" data-reveal="rule"></div>
+		<div class="sec-head sec-head--split">
+			<div>
+				<p class="label mono" data-reveal><span>03</span> Projects</p>
+				<h2 class="h2 lines" id="projects-title" data-reveal="lines">
+					<span class="ln"><span style="--l:0">Recent handovers</span></span>
+					<span class="ln dim"><span style="--l:1">from Tagaytay to Taguig.</span></span>
+				</h2>
+			</div>
+			<div class="filters-wrap" data-reveal style="--i:2">
+				<div class="filters" role="group" aria-label="Filter projects by sector">
+					<span class="filters__indicator" aria-hidden="true" data-filter-indicator></span>
+					{
+						sectors.map((s) => (
+							<button class="filter" type="button" data-filter={s} aria-pressed={s === 'All' ? 'true' : 'false'}>
+								{s}
+							</button>
+						))
+					}
+				</div>
+				<p class="filters__count mono" aria-live="polite">
+					<span data-project-count>{String(projects.length).padStart(2, '0')}</span> projects
+				</p>
+			</div>
+		</div>
+
+		<ul class="pgrid">
+			{
+				projects.map((p, i) => (
+					<li class={`pcard-wrap pcard-wrap--${shapes[i] ?? 'std'}`} data-sector={p.sector}>
+						<a class="pcard" href={`#p-${p.slug}`} data-open-project={p.slug} data-cursor="View">
+							<span class="pcard__media media" data-reveal="mask" style={`--i:${i % 3}`}>
+								<Image
+									src={p.cover}
+									alt={p.coverAlt}
+									widths={[500, 900, 1400]}
+									sizes={shapes[i] === 'wide' ? '(max-width: 760px) 100vw, 66vw' : '(max-width: 760px) 100vw, 33vw'}
+								/>
+								<span class="pcard__specs mono" aria-hidden="true">
+									<span>{p.floorArea}</span>
+									<span>{p.duration}</span>
+									<span>{p.scope}</span>
+								</span>
+							</span>
+							<span class="pcard__cap">
+								<span class="pcard__title">{p.title}</span>
+								<span class="pcard__meta mono">
+									{p.sector} · {p.location} · {p.year}
+								</span>
+							</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="cursor-badge" aria-hidden="true" data-cursor-badge>View</div>
+</section>
+
+<dialog class="project-dialog" aria-labelledby="project-dialog-title" data-project-dialog>
+	<div class="project-dialog__bar">
+		<div class="wrap project-dialog__bar-inner">
+			<div class="project-dialog__nav">
+				<button class="icon-btn" type="button" aria-label="Previous project" data-dialog-prev>
+					<Icon name="arrow-left" />
+				</button>
+				<button class="icon-btn" type="button" aria-label="Next project" data-dialog-next>
+					<Icon name="arrow-right" />
+				</button>
+				<span class="mono" data-dialog-count aria-live="polite"></span>
+			</div>
+			<button class="project-dialog__close" type="button" data-dialog-close>
+				Close
+				<span class="icon-btn"><Icon name="close" /></span>
+			</button>
+		</div>
+	</div>
+
+	<h2 class="sr-only" id="project-dialog-title">Project details</h2>
+
+	{
+		projects.map((p) => (
+			<article class="project-detail" data-project={p.slug} hidden aria-label={p.title}>
+				<div class="wrap">
+					<div class="project-detail__head">
+						<h3 class="project-detail__title">
+							<span class="mono">
+								{p.sector} · {p.year}
+							</span>
+							{p.title}
+						</h3>
+						<dl class="project-detail__facts">
+							<dt class="mono">Location</dt>
+							<dd>{p.location}</dd>
+							<dt class="mono">Scope</dt>
+							<dd>{p.scope}</dd>
+							<dt class="mono">Floor area</dt>
+							<dd>{p.floorArea}</dd>
+							<dt class="mono">Duration</dt>
+							<dd>{p.duration}</dd>
+						</dl>
+					</div>
+					<div class="media project-detail__cover">
+						<Image src={p.cover} alt={p.coverAlt} widths={[800, 1400, 2000]} sizes="100vw" loading="lazy" />
+					</div>
+					<div class="project-detail__body">
+						<div>
+							<p class="project-detail__summary">{p.summary}</p>
+							<p style="margin-top:32px">
+								<a class="btn btn--accent" href="#contact" data-dialog-contact>
+									<span class="btn__label" data-text="Price a similar build">Price a similar build</span>
+									<span class="btn__icon">
+										<Icon name="arrow-right" />
+									</span>
+								</a>
+							</p>
+						</div>
+						<div class="media project-detail__second">
+							<Image src={p.detail} alt={p.detailAlt} widths={[600, 1000]} sizes="(max-width: 800px) 100vw, 40vw" loading="lazy" />
+						</div>
+					</div>
+				</div>
+			</article>
+		))
+	}
+</dialog>

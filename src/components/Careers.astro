@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { company, images, openRoles } from '../data/site';
+---
+
+<section class="careers" id="careers" aria-labelledby="careers-title">
+	<div class="wrap careers__inner">
+		<div class="careers__photo media" data-reveal="mask">
+			<Image
+				src={images.siteCrew}
+				alt="Two workers in hard hats and orange vests tie reinforcement on a building site"
+				widths={[600, 1000, 1400]}
+				sizes="(max-width: 900px) 100vw, 50vw"
+				data-parallax="0.12"
+			/>
+		</div>
+		<div class="careers__copy">
+			<p class="label mono" data-reveal><span>07</span> Careers</p>
+			<h2 class="h2 lines" id="careers-title" data-reveal="lines">
+				<span class="ln"><span style="--l:0">Build your career</span></span>
+				<span class="ln dim"><span style="--l:1">on our sites.</span></span>
+			</h2>
+			<p data-reveal style="--i:2">
+				We hire for the long run: regular contracts, paid overtime, HMO from day one and a licence review programme
+				for young engineers. We are hiring now for:
+			</p>
+			<ul class="roles" data-reveal style="--i:3">
+				{openRoles.map((r) => <li>{r}</li>)}
+			</ul>
+			<a class="btn btn--dark" href={`mailto:${company.careersEmail}?subject=Application`} data-reveal style="--i:4" data-magnetic>
+				<span class="btn__label" data-text="Send your CV">Send your CV</span>
+				<span class="btn__icon"><Icon name="arrow-right" /></span>
+			</a>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { services } from '../data/site';
+---
+
+<section class="services section" id="services" aria-labelledby="services-title" data-services>
+	<div class="wrap">
+		<div class="ruler" aria-hidden="true" data-reveal="rule"></div>
+		<div class="sec-head">
+			<p class="label mono" data-reveal><span>02</span> Services</p>
+			<h2 class="h2 lines" id="services-title" data-reveal="lines">
+				<span class="ln"><span style="--l:0">Five ways to build</span></span>
+				<span class="ln dim"><span style="--l:1">with one contractor.</span></span>
+			</h2>
+		</div>
+
+		<div class="services__body">
+			<div class="services__stage" aria-hidden="true">
+				<div class="services__frame">
+					{
+						services.map((s, i) => (
+							<div class="services__shot" data-service-shot>
+								<Image src={s.image} alt="" widths={[700, 1100, 1500]} sizes="(max-width: 960px) 0px, 46vw" loading={i === 0 ? 'eager' : 'lazy'} />
+							</div>
+						))
+					}
+					<div class="services__hud mono">
+						<span><span data-service-index>01</span> / {String(services.length).padStart(2, '0')}</span>
+						<span class="services__meter"><span data-service-meter></span></span>
+					</div>
+				</div>
+			</div>
+
+			<ol class="services__list">
+				{
+					services.map((s, i) => (
+						<li class="svc" data-service tabindex="-1">
+							<div class="svc__photo media">
+								<Image src={s.image} alt={s.alt} widths={[600, 900]} sizes="(max-width: 960px) 100vw, 1px" />
+							</div>
+							<div class="svc__head">
+								<span class="svc__code mono">{s.code}</span>
+								<h3 class="svc__title">{s.title}</h3>
+								<span class="svc__num mono">{String(i + 1).padStart(2, '0')}</span>
+							</div>
+							<p class="svc__text">{s.summary}</p>
+							<ul class="svc__scope" aria-label={`${s.title}: scope`}>
+								{s.scope.map((t) => (
+									<li>{t}</li>
+								))}
+							</ul>
+							<a class="link-arrow" href="#contact">
+								Price a {s.title.toLowerCase()} job
+								<Icon name="arrow-right" />
+							</a>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</div>
+</section>

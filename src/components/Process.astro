@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { images, process } from '../data/site';
+---
+
+<section class="process section" id="process" aria-labelledby="process-title">
+	<div class="wrap">
+		<div class="ruler" aria-hidden="true" data-reveal="rule"></div>
+		<div class="process__grid">
+			<div class="process__aside">
+				<div class="process__sticky">
+					<p class="label mono" data-reveal><span>04</span> Process</p>
+					<h2 class="h2 lines" id="process-title" data-reveal="lines">
+						<span class="ln"><span style="--l:0">From site visit</span></span>
+						<span class="ln dim"><span style="--l:1">to handover.</span></span>
+					</h2>
+					<p class="process__intro" data-reveal style="--i:2">
+						Five stages, each with a date in the contract. You get a one-page report every Friday from the first
+						week to the last.
+					</p>
+					<div class="process__photo media" data-reveal="mask" style="--i:1">
+						<Image
+							src={images.craneLow}
+							alt="A tower crane seen from its base, rising into an evening sky"
+							widths={[500, 900]}
+							sizes="(max-width: 900px) 100vw, 30vw"
+							data-parallax="0.18"
+						/>
+						<span class="process__readout mono" data-timeline-readout aria-hidden="true">01 / 05</span>
+					</div>
+				</div>
+			</div>
+
+			<ol class="timeline" data-timeline>
+				<span class="timeline__rail" aria-hidden="true"><span class="timeline__fill" data-timeline-fill></span></span>
+				{
+					process.map((step, i) => (
+						<li class="stage" data-stage>
+							<span class="stage__node" aria-hidden="true" />
+							<div class="stage__body" data-reveal style={`--i:${i % 2}`}>
+								<p class="stage__when mono">
+									<span>Stage {String(i + 1).padStart(2, '0')}</span>
+									<span>{step.weeks}</span>
+								</p>
+								<h3 class="stage__title">{step.title}</h3>
+								<p class="stage__text">{step.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</div>
+</section>

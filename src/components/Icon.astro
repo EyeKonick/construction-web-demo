@@ -1,0 +1,64 @@
+---
+type Name =
+	| 'arrow-right'
+	| 'arrow-up'
+	| 'arrow-left'
+	| 'close'
+	| 'plus'
+	| 'pause'
+	| 'play'
+	| 'helmet'
+	| 'clipboard'
+	| 'peso'
+	| 'wrench'
+	| 'facebook'
+	| 'instagram'
+	| 'linkedin';
+
+interface Props {
+	name: Name;
+	class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+// Stroke icons on a 16px grid; the rest are filled.
+const stroke: Partial<Record<Name, string>> = {
+	'arrow-right': 'M2 8h12M9 3l5 5-5 5',
+	'arrow-left': 'M14 8H2M7 3L2 8l5 5',
+	'arrow-up': 'M8 14V2M3 7l5-5 5 5',
+	close: 'M3 3l10 10M13 3L3 13',
+	plus: 'M8 2v12M2 8h12',
+	helmet: 'M1.5 12.5h13M2.5 12.5V10a5.5 5.5 0 0111 0v2.5M6.5 5V3.5h3V5M8 3.5v4',
+	clipboard: 'M5 2.5H3.5v12h9v-12H11M5.5 1.5h5v2.5h-5zM5.5 7.5h5M5.5 10h5M5.5 12.5h3',
+	peso: 'M5 14V2h3.5a3 3 0 010 6H5M3 5h9.5M3 7h9.5',
+	wrench: 'M10.5 1.8a3.4 3.4 0 00-3.2 4.6L1.8 11.9a1.2 1.2 0 000 1.7l.6.6a1.2 1.2 0 001.7 0l5.5-5.5a3.4 3.4 0 004.6-3.2l-2 2-2-.5-.5-2z',
+	pause: 'M5.5 3v10M10.5 3v10',
+};
+
+const fill: Partial<Record<Name, string>> = {
+	play: 'M4.5 2.5v11l9-5.5z',
+	facebook: 'M9.2 16V8.7h2.4l.4-2.8H9.2V4.1c0-.8.2-1.4 1.4-1.4H12V.2A19 19 0 009.9.1C7.8.1 6.4 1.4 6.4 3.7v2.2H4v2.8h2.4V16z',
+	instagram:
+		'M8 1.5c1.8 0 2 0 2.7.1 2 .1 2.6 1 2.7 2.7v5.4c-.1 1.8-.7 2.6-2.7 2.7H5.3c-2-.1-2.6-.9-2.7-2.7V4.3c.1-1.8.8-2.6 2.7-2.7zM8 0C6.2 0 6 0 5.3.1 2.7.2 1.2 1.6 1.1 4.3 1 5 1 5.2 1 8s0 3 .1 3.7c.1 2.6 1.6 4.1 4.2 4.2H10.7c2.6-.1 4.1-1.6 4.2-4.2.1-.7.1-.9.1-3.7s0-3-.1-3.7C14.8 1.7 13.3.2 10.7.1 10 0 9.8 0 8 0zm0 3.9a4.1 4.1 0 100 8.2 4.1 4.1 0 000-8.2zm0 6.8a2.7 2.7 0 110-5.4 2.7 2.7 0 010 5.4zm4.3-7.9a1 1 0 100 1.9 1 1 0 000-1.9z',
+	linkedin:
+		'M3.6 5.3H.9V15h2.7zM2.2 1a1.6 1.6 0 100 3.2 1.6 1.6 0 000-3.2zM15 9.6c0-2.6-.6-4.5-3.6-4.5-1.5 0-2.4.8-2.8 1.5V5.3H6V15h2.7v-4.8c0-1.3.2-2.5 1.8-2.5s1.6 1.5 1.6 2.6V15H15z',
+};
+
+const d = stroke[name] ?? fill[name];
+const isFill = !(name in stroke);
+---
+
+<svg
+	class={className}
+	viewBox="0 0 16 16"
+	fill={isFill ? 'currentColor' : 'none'}
+	stroke={isFill ? 'none' : 'currentColor'}
+	stroke-width="1.4"
+	stroke-linecap="square"
+	stroke-linejoin="miter"
+	aria-hidden="true"
+	focusable="false"
+>
+	<path d={d}></path>
+</svg>

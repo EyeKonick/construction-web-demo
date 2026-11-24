@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { company, images } from '../data/site';
+
+const statement =
+	'Since 2004 we have built houses, towers, warehouses and plants across Luzon. Every job runs on one fixed-price contract, our own crews and a handover date we put in writing.';
+const words = statement.split(' ');
+---
+
+<section class="company section" id="company" aria-labelledby="company-title">
+	<div class="wrap">
+		<div class="ruler" aria-hidden="true" data-reveal="rule"></div>
+		<p class="label mono" data-reveal><span>01</span> The company</p>
+
+		<p class="statement" data-scrub>
+			{words.map((w, i) => <><span class="wd" style={`--wi:${i}`}>{w}</span>{' '}</>)}
+		</p>
+
+		<div class="company__grid">
+			<div class="company__photo company__photo--wide">
+				<div class="media" data-reveal="mask">
+					<Image
+						src={images.crewLineup}
+						alt="A site team in hard hats and vests stands on a slab between rows of reinforcement steel"
+						widths={[700, 1100, 1600]}
+						sizes="(max-width: 900px) 100vw, 58vw"
+						data-parallax="0.1"
+					/>
+				</div>
+			</div>
+
+			<div class="company__copy">
+				<h2 class="h2 lines" id="company-title" data-reveal="lines">
+					<span class="ln"><span style="--l:0">One contract.</span></span>
+					<span class="ln dim"><span style="--l:1">One crew. One date.</span></span>
+				</h2>
+				<p data-reveal style="--i:2">
+					{company.name} is a general contractor of 650 engineers, foremen and tradespeople, run from Pasig. The
+					project manager who prices your job is the one who runs the site and hands you the keys.
+				</p>
+				<a class="btn btn--dark" href="#process" data-reveal style="--i:3" data-magnetic>
+					<span class="btn__label" data-text="See how we work">See how we work</span>
+					<span class="btn__icon"><Icon name="arrow-right" /></span>
+				</a>
+			</div>
+
+			<ol class="company__points">
+				<li data-reveal style="--i:0">
+					<span class="mono">A</span>
+					<h3>Priced from the drawings</h3>
+					<p>An itemised bill of quantities, not a lump sum on one page.</p>
+				</li>
+				<li data-reveal style="--i:1">
+					<span class="mono">B</span>
+					<h3>Built by our own crews</h3>
+					<p>Formwork, rebar, steel and finishing teams on our payroll.</p>
+				</li>
+				<li data-reveal style="--i:2">
+					<span class="mono">C</span>
+					<h3>Handed over on the date</h3>
+					<p>94% of our projects finished on or before the contract date.</p>
+				</li>
+			</ol>
+
+			<div class="company__photo company__photo--tall">
+				<div class="media" data-reveal="mask" style="--i:1">
+					<Image
+						src={images.frameWorker}
+						alt="A carpenter in a hard hat works high on a timber wall frame"
+						widths={[500, 800, 1100]}
+						sizes="(max-width: 900px) 100vw, 34vw"
+						data-parallax="0.14"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

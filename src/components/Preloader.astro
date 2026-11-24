@@ -1,0 +1,17 @@
+---
+import Logo from './Logo.astro';
+import { company } from '../data/site';
+---
+
+<div class="preloader" aria-hidden="true" data-preloader>
+	<div class="preloader__inner">
+		<div class="preloader__brand">
+			<Logo />
+			<span>{company.name}</span>
+		</div>
+		<div class="preloader__meter">
+			<span class="preloader__count" data-preloader-count>000</span>
+			<span class="preloader__track"><span class="preloader__bar" data-preloader-bar></span></span>
+		</div>
+	</div>
+</div>

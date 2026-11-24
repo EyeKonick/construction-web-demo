@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { company, figures, images } from '../data/site';
+
+// Headline words, split for the load animation (each word rises out of its own mask).
+const lineA = 'Built to stand'.split(' ');
+const lineB = 'for fifty years.'.split(' ');
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+	<div class="hero__media" data-hero-media>
+		<Image
+			src={images.hero}
+			alt="Tower cranes over a city block under construction at dusk"
+			widths={[768, 1280, 1920, 2400]}
+			sizes="100vw"
+			loading="eager"
+			fetchpriority="high"
+		/>
+	</div>
+	<div class="hero__grid" aria-hidden="true">
+		<span></span><span></span><span></span>
+	</div>
+
+	<div class="hero__copy" data-hero-copy>
+		<p class="hero__tag mono" data-hero-fade style="--i:0">
+			<span class="dot" aria-hidden="true"></span> Est. {company.founded} · Pasig, Metro Manila
+		</p>
+		<h1 class="hero__title" id="hero-title">
+			<span class="hero__kicker" data-hero-fade style="--i:0">General contractor for homes, offices and warehouses</span>
+			<span class="hero__line">
+				{
+					lineA.map((w, i) => (
+						<>
+							<span class="w">
+								<span style={`--w:${i}`}>{w}</span>
+							</span>{' '}
+						</>
+					))
+				}
+			</span>
+			<span class="hero__line hero__line--dim">
+				{
+					lineB.map((w, i) => (
+						<>
+							<span class="w">
+								<span style={`--w:${i + lineA.length}`}>{w}</span>
+							</span>{' '}
+						</>
+					))
+				}
+			</span>
+		</h1>
+		<div class="hero__actions" data-hero-fade style="--i:2">
+			<a class="btn btn--accent" href="#contact" data-magnetic>
+				<span class="btn__label" data-text="Request a quote">Request a quote</span>
+				<span class="btn__icon"><Icon name="arrow-right" /></span>
+			</a>
+			<a class="btn btn--glass" href="#projects" data-magnetic>
+				<span class="btn__label" data-text="See our projects">See our projects</span>
+				<span class="btn__icon"><Icon name="arrow-right" /></span>
+			</a>
+		</div>
+	</div>
+
+	<aside class="live" aria-label="A project on site now" data-hero-fade style="--i:3">
+		<p class="live__head mono">
+			<span class="live__pulse" aria-hidden="true"></span> On site now
+		</p>
+		<p class="live__title">Kapitolyo Residences</p>
+		<p class="live__meta">14-storey residential, Pasig</p>
+		<div class="live__progress">
+			<div class="live__row mono">
+				<span>Structure</span>
+				<span><span class="live__pct" data-live-pct>64</span>%</span>
+			</div>
+			<span class="live__track"><span class="live__bar" style="--p:0.64"></span></span>
+		</div>
+		<dl class="live__facts">
+			<div><dt class="mono">Level</dt><dd>9 of 14</dd></div>
+			<div><dt class="mono">Handover</dt><dd>Q3 2027</dd></div>
+		</dl>
+	</aside>
+
+	<ul class="hero__figures" aria-label="Haligi Builders in figures">
+		{
+			figures.map((f, i) => (
+				<li data-hero-fade style={`--i:${i + 3}`}>
+					<span class="hero__fig-value">
+						<span data-hero-count={f.value} data-decimals={f.decimals ?? 0}>
+							{f.value.toLocaleString('en-US', { minimumFractionDigits: f.decimals ?? 0 })}
+						</span>
+						<small>{f.suffix}</small>
+					</span>
+					<span class="hero__fig-label">{f.label}</span>
+				</li>
+			))
+		}
+	</ul>
+</section>

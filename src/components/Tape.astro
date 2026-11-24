@@ -1,0 +1,35 @@
+---
+/* Caution-tape marquee band. Pure CSS loop; a pause button stops it (main.ts, initTapes). */
+import Icon from './Icon.astro';
+
+interface Props {
+	items: string[];
+	tone?: 'yellow' | 'dark';
+	tilt?: boolean;
+	reverse?: boolean;
+}
+
+const { items, tone = 'yellow', tilt = false, reverse = false } = Astro.props;
+---
+
+<div class:list={['tape', `tape--${tone}`, { 'tape--tilt': tilt, 'tape--reverse': reverse }]} data-tape>
+	<div class="tape__track" aria-hidden="true">
+		{
+			[0, 1].map(() => (
+				<div class="tape__set">
+					{items.map((item) => (
+						<>
+							<span>{item}</span>
+							<span class="tape__mark" />
+						</>
+					))}
+				</div>
+			))
+		}
+	</div>
+	<p class="sr-only">{items.join(', ')}</p>
+	<button class="tape__toggle" type="button" aria-pressed="false" aria-label="Pause the moving banner" data-tape-toggle>
+		<Icon name="pause" class="i-pause" />
+		<Icon name="play" class="i-play" />
+	</button>
+</div>
